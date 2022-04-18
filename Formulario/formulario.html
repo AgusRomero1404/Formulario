@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head> 
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE-egde">
+    <!--<link rel="stylesheet" href="Css.css">-->
+    
+</head>
+<body>
+
+<section class = "formulario" id="personajes">
+    <tittle> Formulario </tittle>
+    <h4> Ingrese el personaje:</h4>
+    <form class="form" id= "filters"  method="get">
+        <p>Búsqueda: <input class ="form" type="search" id="search" placeholder= "Personajes" name="busqueda" size="40"></p>
+    
+        <p><input type="button"  id="enviar" value="Enviar" ></p>
+      </form>
+
+      
+
+
+
+
+    <script> 
+    const clearCharacter = function(){
+        const container = document.getElementById('personajes')
+        
+        container.innerHTML = '';
+    }
+    //buscador de teclas
+    
+    const handleChangeSearch = function( search ){
+        const input = search.target;
+        const click = enviar
+        request (input.value);
+        
+    }
+    //creador de los html de las fichas
+    const insertCharacter =  function(data){
+        //este es el contenedor
+        
+        const container = document.getElementById("personajes")
+
+        //recorremos el resultado de los personajes
+
+        for( let character of data ){
+
+            container.innerHTML += `      
+            
+        <div class="personaje">
+
+             <h2>${character.name}</h2>
+
+            <img src="${character.image}"/>
+
+            <div class="info">
+                <p>Estado:${character.status}</p>
+                <p>Especie:${character.species}</p>
+                <p>Genero:${character.gender}</p>
+            </div>
+
+        </div>
+             `
+
+        }
+    }
+
+    //es el fetch con async y await
+    const request = async function(searchText){
+
+        
+    const req = await fetch( !searchText ? 'https://rickandmortyapi.com/api/character/':'https://rickandmortyapi.com/api/character/?name='+searchText)
+
+    const response = await req.json();
+
+    clearCharacter()
+    insertCharacter(response.results)
+
+}
+    const search = document.getElementById('search');
+    
+    search.addEventListener('change', handleChangeSearch);
+
+    /*const click = document.getElementById('enviar')
+    click.addEventListener('onclick', buscar);*/
+
+
+    </script>
+    </section>
+
+</body>
+
+</html>
